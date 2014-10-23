@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,16 +24,16 @@ import com.xun.iaskianswer.util.HttpUtil;
 
 /**
  * @author xwang
- *
- * 2014年10月23日
+ * 
+ *         2014年10月23日
  */
 public class IAskIAnswerActivity extends Activity {
 	private TextView tv;
 	private Button btn;
 	private TextView tv_tips;
 	private TextView add;
-	
-	private Handler handler2 = new Handler(Looper.getMainLooper());
+
+	private Handler handler2 = new Handler();
 	private RandomQueryThread randomQueryThread;
 
 	private DialogRecognitionListener mRecognitionListener;
@@ -55,8 +54,8 @@ public class IAskIAnswerActivity extends Activity {
 
 	private void initData() {
 		voiceRequestManager = VoiceRequestManager.getInstance();
-		baiduLocationManager = BaiduLocationManager.getInstance(getApplicationContext());
-		baiduLocationManager.startLocationUpdate(add);
+		baiduLocationManager = BaiduLocationManager.getInstance();
+		baiduLocationManager.startLocationUpdate(add, getApplicationContext());
 		if (randomQueryThread == null) {
 			randomQueryThread = new RandomQueryThread();
 			randomQueryThread.start();
