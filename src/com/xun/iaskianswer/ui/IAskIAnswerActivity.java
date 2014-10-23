@@ -18,6 +18,7 @@ import com.baidu.voicerecognition.android.ui.BaiduASRDigitalDialog;
 import com.baidu.voicerecognition.android.ui.DialogRecognitionListener;
 import com.xun.iaskianswer.R;
 import com.xun.iaskianswer.config.Constants;
+import com.xun.iaskianswer.manager.BaiduLocationManager;
 import com.xun.iaskianswer.manager.VoiceRequestManager;
 import com.xun.iaskianswer.util.AnimUtil;
 import com.xun.iaskianswer.util.HttpUtil;
@@ -31,11 +32,14 @@ public class IAskIAnswerActivity extends Activity {
 	private TextView tv;
 	private Button btn;
 	private TextView tv_tips;
+	private TextView add;
+	
 	private Handler handler2 = new Handler(Looper.getMainLooper());
 	private RandomQueryThread randomQueryThread;
 
 	private DialogRecognitionListener mRecognitionListener;
 	private VoiceRequestManager voiceRequestManager;
+	private BaiduLocationManager baiduLocationManager;
 	private BaiduASRDigitalDialog mDialog = null;
 	private String turingResult = null;
 
@@ -51,6 +55,8 @@ public class IAskIAnswerActivity extends Activity {
 
 	private void initData() {
 		voiceRequestManager = VoiceRequestManager.getInstance();
+		baiduLocationManager = BaiduLocationManager.getInstance(getApplicationContext());
+		baiduLocationManager.startLocationUpdate(add);
 		if (randomQueryThread == null) {
 			randomQueryThread = new RandomQueryThread();
 			randomQueryThread.start();
@@ -107,6 +113,7 @@ public class IAskIAnswerActivity extends Activity {
 		btn = (Button) findViewById(R.id.btn);
 		tv_tips = (TextView) findViewById(R.id.tv_tips);
 		AnimUtil.createQueryAnimation(tv_tips, Constants.toastTips);
+		add = (TextView) findViewById(R.id.add);
 	}
 
 	private class RandomQueryThread extends Thread {

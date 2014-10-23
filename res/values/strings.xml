@@ -4,5 +4,6 @@
     <string name="app_name">IAskIAnswer</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="xwang_baidu_key"></string>
 
 </resources>

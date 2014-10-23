@@ -5,6 +5,12 @@
     android:orientation="vertical" >
 
     <TextView
+        android:id="@+id/add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_world" />
+
+    <TextView
         android:id="@+id/tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,9 +20,7 @@
         android:id="@+id/btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="test" />
-
-
+        android:text="@string/app_name" />
 
     <TextView
         android:id="@+id/tv_tips"
