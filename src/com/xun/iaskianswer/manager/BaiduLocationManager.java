@@ -7,6 +7,8 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.xun.iaskianswer.app.IAskIAnswerApp;
+import com.xun.iaskianswer.entity.bean.LocationInfo;
 
 /**
  * @author xwang
@@ -19,8 +21,11 @@ public class BaiduLocationManager {
 	private LocationClient locationClient = null;
 	private static final int UPDATE_TIME = 5000;
 	private final static String COOR_TYPE = "gcj02";
+	private LocationInfo locationInfo;
+	private Context context;
 
 	private BaiduLocationManager() {
+		this.context = IAskIAnswerApp.AppContext;
 	}
 
 	public static BaiduLocationManager getInstance() {
@@ -43,12 +48,14 @@ public class BaiduLocationManager {
 		}
 	}
 
-	private void setLcationOption(final TextView tv, Context context) {
+	private void setLcationOption(final TextView tv) {
+		locationInfo = LocationInfo.getInstance();
 		this.locationClient = new LocationClient(context);
 		LocationClientOption locationClientOption = new LocationClientOption();
 		locationClientOption.setOpenGps(true);
 		locationClientOption.setCoorType(COOR_TYPE);
 		locationClientOption.setScanSpan(UPDATE_TIME);// 扫描周期：1分钟
+		locationClientOption.setIsNeedAddress(true);
 		this.locationClient.setLocOption(locationClientOption);
 		this.locationClient.registerLocationListener(new BDLocationListener() {
 
@@ -57,34 +64,23 @@ public class BaiduLocationManager {
 				if (location == null) {
 					return;
 				}
-				StringBuffer sb = new StringBuffer(256);
-				sb.append("Time : ");
-				sb.append(location.getTime());
-				sb.append("\nError code : ");
-				sb.append(location.getLocType());
-				sb.append("\nLatitude : ");
-				sb.append(location.getLatitude());
-				sb.append("\nLontitude : ");
-				sb.append(location.getLongitude());
-				sb.append("\nRadius : ");
-				sb.append(location.getRadius());
+				locationInfo.setLatitude(location.getLatitude());
+				locationInfo.setLongitude(location.getLongitude());
 				if (location.getLocType() == BDLocation.TypeGpsLocation) {
-					sb.append("\nSpeed : ");
-					sb.append(location.getSpeed());
-					sb.append("\nSatellite : ");
-					sb.append(location.getSatelliteNumber());
+					locationInfo.setSpeed(location.getSpeed());
+					locationInfo.setSatelliteNumber(location.getSatelliteNumber());
+					locationInfo.setAddrStr(location.getAddrStr());
 				} else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {
-					sb.append("\nAddress : ");
-					sb.append(location.getAddrStr());
+					locationInfo.setAddrStr(location.getAddrStr());
 				}
-				tv.setText(sb.toString());
+				tv.setText(locationInfo.getAddrStr());
 			}
 		});
 	}
 
 	// 参数中传个TextView，结果就显示在这个TextView中
 	public void startLocationUpdate(TextView tv, Context context) {
-		setLcationOption(tv, context);
+		setLcationOption(tv);
 		if (locationClient != null) {
 			locationClient.start();
 			locationClient.requestLocation();
