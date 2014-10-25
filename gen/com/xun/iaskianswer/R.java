@@ -29,9 +29,12 @@ public final class R {
         public static final int btn=0x7f080002;
         public static final int tv=0x7f080001;
         public static final int tv_tips=0x7f080003;
+        public static final int viewPager=0x7f080004;
+        public static final int viewPager_dot=0x7f080005;
     }
     public static final class layout {
         public static final int activity_iask_ianswer=0x7f030000;
+        public static final int viewpager_main=0x7f030001;
     }
     public static final class menu {
         public static final int iask_ianswer=0x7f070000;

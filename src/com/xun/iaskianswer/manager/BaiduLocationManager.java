@@ -19,7 +19,7 @@ public class BaiduLocationManager {
 	private static BaiduLocationManager instance = null;
 
 	private LocationClient locationClient = null;
-	private static final int UPDATE_TIME = 5000;
+	private static final int UPDATE_TIME = 60 * 1000;
 	private final static String COOR_TYPE = "gcj02";
 	private LocationInfo locationInfo;
 	private Context context;
