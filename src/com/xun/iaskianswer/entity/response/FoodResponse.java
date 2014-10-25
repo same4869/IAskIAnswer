@@ -7,11 +7,11 @@ import com.xun.iaskianswer.entity.item.FoodItem;
 
 /**
  * @author xwang
- *
- * 2014年10月23日
+ * 
+ *         2014年10月23日
  */
-public class FoodResponse {
-	public int code;//311000
+public class FoodResponse extends AbstractResponse {
+	public int code;// 311000
 	public String text;
 	public List<FoodItem> content = new ArrayList<FoodItem>();
 }

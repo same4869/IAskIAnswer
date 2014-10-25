@@ -7,10 +7,10 @@ import com.xun.iaskianswer.entity.item.AppItem;
 
 /**
  * @author xwang
- *
- * 2014年10月23日
+ * 
+ *         2014年10月23日
  */
-public class AppResponse {
+public class AppResponse extends AbstractResponse {
 	public int code;// 304000
 	public String text;
 	public List<AppItem> content = new ArrayList<AppItem>();

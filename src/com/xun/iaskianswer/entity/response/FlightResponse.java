@@ -7,11 +7,11 @@ import com.xun.iaskianswer.entity.item.FlightItem;
 
 /**
  * @author xwang
- *
- * 2014年10月23日
+ * 
+ *         2014年10月23日
  */
-public class FlightResponse {
-	public int code;//306000
+public class FlightResponse extends AbstractResponse {
+	public int code;// 306000
 	public String text;
 	public List<FlightItem> content = new ArrayList<FlightItem>();
 }

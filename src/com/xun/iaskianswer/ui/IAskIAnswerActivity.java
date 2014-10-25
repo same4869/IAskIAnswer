@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -17,11 +18,15 @@ import com.baidu.voicerecognition.android.ui.BaiduASRDigitalDialog;
 import com.baidu.voicerecognition.android.ui.DialogRecognitionListener;
 import com.xun.iaskianswer.R;
 import com.xun.iaskianswer.config.Constants;
-import com.xun.iaskianswer.entity.bean.LocationInfo;
+import com.xun.iaskianswer.entity.response.AbstractResponse;
+import com.xun.iaskianswer.entity.response.TextResponse;
 import com.xun.iaskianswer.manager.BaiduLocationManager;
+import com.xun.iaskianswer.manager.ResponseManager;
 import com.xun.iaskianswer.manager.VoiceRequestManager;
 import com.xun.iaskianswer.util.AnimUtil;
 import com.xun.iaskianswer.util.HttpUtil;
+import com.xun.iaskianswer.util.JSONUtil;
+import com.xun.iaskianswer.util.PowerUtil;
 
 /**
  * @author xwang
@@ -40,9 +45,12 @@ public class IAskIAnswerActivity extends Activity {
 	private DialogRecognitionListener mRecognitionListener;
 	private VoiceRequestManager voiceRequestManager;
 	private BaiduLocationManager baiduLocationManager;
+	private ResponseManager responseManager;
 	private BaiduASRDigitalDialog mDialog = null;
-	private String turingResult = null; //图灵机器人返回回来的JSON
-	//private String SEARCH_TYPE = null; //截取出来的返回类型码
+	private String turingResult = null; // 图灵机器人返回回来的JSON
+	private String SEARCH_TYPE = null; // 截取出来的返回类型码
+
+	private Boolean is2CallBack = false;// 是否双击退出
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +65,7 @@ public class IAskIAnswerActivity extends Activity {
 	private void initData() {
 		voiceRequestManager = VoiceRequestManager.getInstance();
 		baiduLocationManager = BaiduLocationManager.getInstance();
+		responseManager = new ResponseManager();
 		baiduLocationManager.startLocationUpdate(add, getApplicationContext());
 		if (randomQueryThread == null) {
 			randomQueryThread = new RandomQueryThread();
@@ -104,17 +113,18 @@ public class IAskIAnswerActivity extends Activity {
 			tv.setText(turingResult);
 			// Toast.makeText(IAskIAnswerActivity.this,
 			// turingResult.substring(8, 14), Toast.LENGTH_SHORT).show();
-			// SEARCH_TYPE = turingResult.substring(8, 14);
-			// Constants.Light type = Constants.Light.valueOf(SEARCH_TYPE);
-			// switch (type) {
-			// case value:
-			//
-			// break;
-			//
-			// default:
-			// break;
-			// }
-			// super.handleMessage(msg);
+			if (turingResult.charAt(8) != 4) {
+				SEARCH_TYPE = turingResult.substring(8, 14);
+			} else {
+				SEARCH_TYPE = turingResult.substring(8, 13);
+			}
+			int type = Integer.parseInt(SEARCH_TYPE);
+			AbstractResponse mResponse = responseManager.productResponse(type);
+			TextResponse textResponse = JSONUtil.objectFromJSONString(
+					turingResult, mResponse);
+			Toast.makeText(getApplicationContext(), textResponse.text,
+					Toast.LENGTH_SHORT).show();
+			super.handleMessage(msg);
 		}
 
 	};
@@ -155,7 +165,7 @@ public class IAskIAnswerActivity extends Activity {
 		super.onDestroy();
 	}
 
-	//百度语音设别的回调函数，备用
+	// 百度语音设别的回调函数，备用
 	class MyVoiceRecogListener implements VoiceClientStatusChangeListener {
 
 		@Override
@@ -175,7 +185,40 @@ public class IAskIAnswerActivity extends Activity {
 			// TODO Auto-generated method stub
 
 		}
-		
+
 	}
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			if (!is2CallBack) {
+				is2CallBack = true;
+				Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+				new Handler().postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						is2CallBack = false;
+					}
+				}, 2500);
+
+			} else {
+				android.os.Process.killProcess(android.os.Process.myPid());
+			}
+		}
+		return true;
+	}
+
+	@Override
+	protected void onResume() {
+		PowerUtil.acquireWakeLock(getApplicationContext());
+		super.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		PowerUtil.releaseWakeLock();
+		super.onPause();
+	}
 }

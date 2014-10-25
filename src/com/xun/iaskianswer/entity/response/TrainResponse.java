@@ -7,11 +7,11 @@ import com.xun.iaskianswer.entity.item.TrainItem;
 
 /**
  * @author xwang
- *
- * 2014年10月23日
+ * 
+ *         2014年10月23日
  */
-public class TrainResponse {
-	public int code;//305000
+public class TrainResponse extends AbstractResponse {
+	public int code;// 305000
 	public String text;
 	public List<TrainItem> content = new ArrayList<TrainItem>();
 }
