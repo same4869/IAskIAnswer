@@ -19,5 +19,10 @@ public class Constants {
 	
 	//主界面提示Tips
 	public static final String[] toastTips = {"今天天气怎么样", "附近好吃的", "你快乐吗", "我要写日记", "你是谁啊"};
+	
+	//枚举目前支持的所有类型
+	public enum Light {
+	       APP, FLIGHT, FOOD, GROUP, HOTEL, LOTTERY, MOVIE, NEWS, NOVEL, PRICE, TEXT, TRAIN, URL;
+	}
 
 }

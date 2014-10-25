@@ -2,7 +2,6 @@ package com.xun.iaskianswer.manager;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.baidu.voicerecognition.android.ui.BaiduASRDigitalDialog;
 import com.baidu.voicerecognition.android.ui.DialogRecognitionListener;
@@ -42,12 +41,10 @@ public class VoiceRequestManager {
 				Config.DIALOG_THEME);
 		mDialog = new BaiduASRDigitalDialog(context, params);
 		mDialog.setDialogRecognitionListener(mRecognitionListener);
-		// }
 		mDialog.getParams().putInt(BaiduASRDigitalDialog.PARAM_PROP,
 				Config.CURRENT_PROP);
 		mDialog.getParams().putString(BaiduASRDigitalDialog.PARAM_LANGUAGE,
 				Config.getCurrentLanguage());
-		Log.e("DEBUG", "Config.PLAY_START_SOUND = " + Config.PLAY_START_SOUND);
 		mDialog.getParams().putBoolean(
 				BaiduASRDigitalDialog.PARAM_START_TONE_ENABLE,
 				Config.PLAY_START_SOUND);

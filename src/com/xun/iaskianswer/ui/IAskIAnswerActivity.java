@@ -17,6 +17,7 @@ import com.baidu.voicerecognition.android.ui.BaiduASRDigitalDialog;
 import com.baidu.voicerecognition.android.ui.DialogRecognitionListener;
 import com.xun.iaskianswer.R;
 import com.xun.iaskianswer.config.Constants;
+import com.xun.iaskianswer.entity.bean.LocationInfo;
 import com.xun.iaskianswer.manager.BaiduLocationManager;
 import com.xun.iaskianswer.manager.VoiceRequestManager;
 import com.xun.iaskianswer.util.AnimUtil;
@@ -40,7 +41,8 @@ public class IAskIAnswerActivity extends Activity {
 	private VoiceRequestManager voiceRequestManager;
 	private BaiduLocationManager baiduLocationManager;
 	private BaiduASRDigitalDialog mDialog = null;
-	private String turingResult = null;
+	private String turingResult = null; //图灵机器人返回回来的JSON
+	//private String SEARCH_TYPE = null; //截取出来的返回类型码
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -100,9 +102,19 @@ public class IAskIAnswerActivity extends Activity {
 		@Override
 		public void handleMessage(Message msg) {
 			tv.setText(turingResult);
-			Toast.makeText(IAskIAnswerActivity.this,
-					turingResult.substring(8, 14), Toast.LENGTH_SHORT).show();
-			super.handleMessage(msg);
+			// Toast.makeText(IAskIAnswerActivity.this,
+			// turingResult.substring(8, 14), Toast.LENGTH_SHORT).show();
+			// SEARCH_TYPE = turingResult.substring(8, 14);
+			// Constants.Light type = Constants.Light.valueOf(SEARCH_TYPE);
+			// switch (type) {
+			// case value:
+			//
+			// break;
+			//
+			// default:
+			// break;
+			// }
+			// super.handleMessage(msg);
 		}
 
 	};
@@ -143,6 +155,7 @@ public class IAskIAnswerActivity extends Activity {
 		super.onDestroy();
 	}
 
+	//百度语音设别的回调函数，备用
 	class MyVoiceRecogListener implements VoiceClientStatusChangeListener {
 
 		@Override
@@ -162,7 +175,7 @@ public class IAskIAnswerActivity extends Activity {
 			// TODO Auto-generated method stub
 
 		}
-
+		
 	}
 
 }
