@@ -1,5 +1,8 @@
 package com.xun.iaskianswer.manager;
 
+import java.util.Locale;
+
+import com.xun.iaskianswer.config.AnswerType;
 import com.xun.iaskianswer.entity.response.AbstractResponse;
 import com.xun.iaskianswer.entity.response.AppResponse;
 import com.xun.iaskianswer.entity.response.FlightResponse;
@@ -14,69 +17,53 @@ import com.xun.iaskianswer.entity.response.PriceResponse;
 import com.xun.iaskianswer.entity.response.TextResponse;
 import com.xun.iaskianswer.entity.response.TrainResponse;
 import com.xun.iaskianswer.entity.response.UrlResponse;
+import com.xun.iaskianswer.util.JSONUtil;
 
 public class ResponseManager {
-	public AbstractResponse productResponse(int type) {
-		// 100000 文本类数据
-		// 200000 网址类数据
-		// 301000 小说
-		// 302000 新闻
-		// 304000 应用、软件、下载
-		// 305000 列车
-		// 306000 航班
-		// 307000 团购
-		// 308000 优惠,movie
-		// 309000 酒店
-		// 310000 彩票
-		// 311000 价格
-		// 312000 餐厅
-		// 40001 key的长度错误（32位）
-		// 40002 请求内容为空
-		// 40003 key错误或帐号未激活
-		// 40004 当天请求次数已用完
-		// 40005 暂不支持该功能
-		// 40006 服务器升级中
-		// 40007 服务器数据格式异常
+	//工厂类，给返回结果和类型，生成对应类型的object
+	public AbstractResponse productResponse(String turingResult, AnswerType type) {
 		switch (type) {
-		case 100000:
-			return new TextResponse();
-		case 200000:
+		case TEXT:
+			TextResponse textResponse = JSONUtil.objectFromJSONString(
+					turingResult, TextResponse.class);
+			return textResponse;
+		case URL:
 			return new UrlResponse();
-		case 301000:
+		case NOVEL:
 			return new NovelResponse();
-		case 302000:
+		case NEWS:
 			return new NewsResponse();
-		case 304000:
+		case APP:
 			return new AppResponse();
-		case 305000:
+		case TRAIN:
 			return new TrainResponse();
-		case 306000:
+		case FLIGHT:
 			return new FlightResponse();
-		case 307000:
+		case GROUP:
 			return new GroupResponse();
-		case 308000:
+		case MOVIE:
 			return new MovieResponse();
-		case 309000:
+		case HOTEL:
 			return new HotelResponse();
-		case 310000:
+		case LOTTERY:
 			return new LotteryResponse();
-		case 311000:
+		case PRICE:
 			return new PriceResponse();
-		case 312000:
+		case FOOD:
 			return new FoodResponse();
-		case 40001:
+		case KEY_LENGTH_ERROR:
 			return new TextResponse();
-		case 40002:
+		case REQUEST_NULL:
 			return new TextResponse();
-		case 40003:
+		case KEY_ERROR:
 			return new TextResponse();
-		case 40004:
+		case NO_REQUEST_COUNT:
 			return new TextResponse();
-		case 40005:
+		case NO_SUPPORT:
 			return new TextResponse();
-		case 40006:
+		case UPDATING:
 			return new TextResponse();
-		case 40007:
+		case FORMAT_ERROR:
 			return new TextResponse();
 		default:
 			return new TextResponse();

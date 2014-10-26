@@ -17,6 +17,7 @@ import com.baidu.voicerecognition.android.VoiceRecognitionClient.VoiceClientStat
 import com.baidu.voicerecognition.android.ui.BaiduASRDigitalDialog;
 import com.baidu.voicerecognition.android.ui.DialogRecognitionListener;
 import com.xun.iaskianswer.R;
+import com.xun.iaskianswer.config.AnswerType;
 import com.xun.iaskianswer.config.Constants;
 import com.xun.iaskianswer.entity.response.AbstractResponse;
 import com.xun.iaskianswer.entity.response.TextResponse;
@@ -113,17 +114,17 @@ public class IAskIAnswerActivity extends Activity {
 			tv.setText(turingResult);
 			// Toast.makeText(IAskIAnswerActivity.this,
 			// turingResult.substring(8, 14), Toast.LENGTH_SHORT).show();
+			//返回码以4开头的只有5位，其他的为6位，这里要判断一下
 			if (turingResult.charAt(8) != 4) {
 				SEARCH_TYPE = turingResult.substring(8, 14);
 			} else {
 				SEARCH_TYPE = turingResult.substring(8, 13);
 			}
-			int type = Integer.parseInt(SEARCH_TYPE);
-			AbstractResponse mResponse = responseManager.productResponse(type);
-			TextResponse textResponse = JSONUtil.objectFromJSONString(
-					turingResult, mResponse);
-			Toast.makeText(getApplicationContext(), textResponse.text,
-					Toast.LENGTH_SHORT).show();
+			// int type = Integer.parseInt(SEARCH_TYPE);
+			AnswerType type = AnswerType.valueOf(SEARCH_TYPE);
+			TextRes ponse mResponse = (TextResponse) responseManager.productResponse(
+					turingResult, type);
+			Toast.makeText(getApplicationContext(), mResponse.text, Toast.LENGTH_SHORT).show();
 			super.handleMessage(msg);
 		}
 
