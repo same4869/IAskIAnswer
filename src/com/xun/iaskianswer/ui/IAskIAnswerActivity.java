@@ -122,9 +122,9 @@ public class IAskIAnswerActivity extends Activity {
 			}
 			// int type = Integer.parseInt(SEARCH_TYPE);
 			AnswerType type = AnswerType.valueOf(SEARCH_TYPE);
-			TextRes ponse mResponse = (TextResponse) responseManager.productResponse(
-					turingResult, type);
-			Toast.makeText(getApplicationContext(), mResponse.text, Toast.LENGTH_SHORT).show();
+			// TextRes ponse mResponse = (TextResponse)
+			// responseManager.productResponse(
+			// turingResult, type);
 			super.handleMessage(msg);
 		}
 

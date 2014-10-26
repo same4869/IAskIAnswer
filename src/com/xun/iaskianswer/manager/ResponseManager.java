@@ -1,7 +1,5 @@
 package com.xun.iaskianswer.manager;
 
-import java.util.Locale;
-
 import com.xun.iaskianswer.config.AnswerType;
 import com.xun.iaskianswer.entity.response.AbstractResponse;
 import com.xun.iaskianswer.entity.response.AppResponse;
