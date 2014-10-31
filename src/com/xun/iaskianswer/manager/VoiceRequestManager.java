@@ -8,6 +8,12 @@ import com.baidu.voicerecognition.android.ui.DialogRecognitionListener;
 import com.xun.iaskianswer.config.Config;
 import com.xun.iaskianswer.config.Constants;
 
+/**
+ * @author wangxun
+ * 
+ *         2014-10-31
+ */
+// 百度语音设置manager
 public class VoiceRequestManager {
 	private static VoiceRequestManager instance = null;
 
