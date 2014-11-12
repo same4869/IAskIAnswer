@@ -3,10 +3,10 @@ package com.xun.iaskianswer.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -22,6 +22,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.baidu.voicerecognition.android.VoiceRecognitionClient.VoiceClientStatusChangeListener;
 import com.baidu.voicerecognition.android.ui.BaiduASRDigitalDialog;
 import com.baidu.voicerecognition.android.ui.DialogRecognitionListener;
+import com.chiemy.jellyviewpager.widget.JellyViewPager;
 import com.xun.iaskianswer.R;
 import com.xun.iaskianswer.adapter.MyPagerAdapter;
 import com.xun.iaskianswer.config.AnswerType;
@@ -48,14 +49,13 @@ import com.xun.iaskianswer.util.AnimUtil;
 import com.xun.iaskianswer.util.HttpUtil;
 import com.xun.iaskianswer.util.LogUtil;
 import com.xun.iaskianswer.util.PowerUtil;
-import com.xun.iaskianswer.view.CustomViewPager;
 
 /**
  * @author xwang
  * 
  *         2014年10月23日
  */
-public class IAskIAnswerActivity extends Activity {
+public class IAskIAnswerActivity extends FragmentActivity {
 	private TextView tv;
 	private Button btn;
 	private TextView tv_tips;
@@ -76,7 +76,7 @@ public class IAskIAnswerActivity extends Activity {
 	private Boolean is2CallBack = false;// 是否双击退出
 	private static final String TAG = "IAskIAnswerActivity";
 
-	private CustomViewPager myViewPager; // 页卡内容
+	private JellyViewPager myViewPager; // 页卡内容
 	private List<View> list; // 存放页卡
 	private LayoutInflater inflater;
 	private MyPagerAdapter myPagerAdapter;
@@ -219,11 +219,11 @@ public class IAskIAnswerActivity extends Activity {
 
 	private void initView() {
 		inflater = getLayoutInflater();
-		myViewPager = (CustomViewPager) findViewById(R.id.viewPager);
+		myViewPager = (JellyViewPager) findViewById(R.id.viewPager);
 		list = new ArrayList<View>();
 		View main_view = inflater.inflate(R.layout.activity_iask_ianswer, null);
 		list.add(main_view);
-		myPagerAdapter = new MyPagerAdapter(list);
+		myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), list);
 		myViewPager.setAdapter(myPagerAdapter);
 		myViewPager.setOnPageChangeListener(new MyPagerChangeListener());
 

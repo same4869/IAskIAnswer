@@ -2,21 +2,28 @@ package com.xun.iaskianswer.adapter;
 
 import java.util.List;
 
+import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.view.PagerAdapter;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.chiemy.jellyviewpager.TestFragment;
+import com.chiemy.jellyviewpager.util.Constant;
 
 /**
  * @author xwang
  * 
  *         2014年10月25日
  */
-public class MyPagerAdapter extends PagerAdapter {
+public class MyPagerAdapter extends FragmentPagerAdapter {
 	public List<View> mListViews;
 
-	public MyPagerAdapter(List<View> mListViews) {
+	public MyPagerAdapter(FragmentManager fm, List<View> mListViews) {
+		super(fm);
 		this.mListViews = mListViews;
 	}
 
@@ -66,6 +73,15 @@ public class MyPagerAdapter extends PagerAdapter {
 	@Override
 	public int getItemPosition(Object object) {
 		return POSITION_NONE;
+	}
+
+	@Override
+	public Fragment getItem(int arg0) {
+		Bundle bundle = new Bundle();
+		bundle.putInt(Constant.KEY, Constant.images[arg0 % getCount()]);
+		Fragment frag = new TestFragment();
+		frag.setArguments(bundle);
+		return frag;
 	}
 
 }
