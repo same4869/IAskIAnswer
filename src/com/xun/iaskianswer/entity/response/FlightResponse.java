@@ -11,7 +11,7 @@ import com.xun.iaskianswer.entity.item.FlightItem;
  *         2014年10月23日
  */
 public class FlightResponse extends AbstractResponse {
-	public int code;// 306000
-	public String text;
-	public List<FlightItem> content = new ArrayList<FlightItem>();
+    public int code;// 306000
+    public String text;
+    public List<FlightItem> list = new ArrayList<FlightItem>();
 }

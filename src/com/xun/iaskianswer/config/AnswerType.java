@@ -1,5 +1,7 @@
 package com.xun.iaskianswer.config;
 
+import android.util.SparseArray;
+
 // 100000 文本类数据
 // 200000 网址类数据
 // 301000 小说
@@ -21,14 +23,27 @@ package com.xun.iaskianswer.config;
 // 40006 服务器升级中
 // 40007 服务器数据格式异常
 public enum AnswerType {
-	TEXT(100000), URL(200000), NOVEL(301000), NEWS(302000), APP(304000), TRAIN(
-			305000), FLIGHT(306000), GROUP(307000), MOVIE(308000), HOTEL(309000), LOTTERY(
-			310000), PRICE(311000), FOOD(312000), KEY_LENGTH_ERROR(40001), REQUEST_NULL(
-			40002), KEY_ERROR(40003), NO_REQUEST_COUNT(40004), NO_SUPPORT(40005), UPDATING(
-			40006), FORMAT_ERROR(40007);
-	private int nCode;
+    TEXT(100000), URL(200000), NOVEL(301000), NEWS(302000), APP(304000), TRAIN(305000), FLIGHT(306000), GROUP(307000), MOVIE(
+            308000), HOTEL(309000), LOTTERY(310000), PRICE(311000), FOOD(312000), KEY_LENGTH_ERROR(40001), REQUEST_NULL(
+            40002), KEY_ERROR(40003), NO_REQUEST_COUNT(40004), NO_SUPPORT(40005), UPDATING(40006), FORMAT_ERROR(40007), NUKNOWN(
+            0);
+    private int nCode;
 
-	AnswerType(int nCode) {
-		this.nCode = nCode;
-	}
+    AnswerType(int nCode) {
+        this.nCode = nCode;
+    }
+
+    private static final SparseArray<AnswerType> intToTypeMap = new SparseArray<AnswerType>();
+    static {
+        for (AnswerType type : AnswerType.values()) {
+            intToTypeMap.put(type.nCode, type);
+        }
+    }
+
+    public static AnswerType fromInt(int i) {
+        AnswerType type = intToTypeMap.get(Integer.valueOf(i));
+        if (type == null)
+            return AnswerType.NUKNOWN;
+        return type;
+    }
 }
