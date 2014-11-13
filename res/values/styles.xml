@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-<resources>
-
-
-</resources>
-=======
 <resources>
 
     <style name="HalfTranslucent" parent="@android:style/Theme.Translucent">
@@ -13,4 +7,3 @@
     </style>
 
 </resources>
->>>>>>> 5369d11a8ee15357495879db0882ede1fef837ac
