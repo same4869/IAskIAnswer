@@ -2,19 +2,12 @@ package com.xun.iaskianswer.manager;
 
 import java.util.List;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.android.volley.toolbox.NetworkImageView;
 import com.xun.iaskianswer.R;
-import com.xun.iaskianswer.adapter.MyPagerAdapter;
-import com.xun.iaskianswer.app.IAskIAnswerApp;
+import com.xun.iaskianswer.adapter.TestFragPagerAdapter;
 import com.xun.iaskianswer.config.AnswerType;
 import com.xun.iaskianswer.entity.response.AbstractResponse;
 import com.xun.iaskianswer.entity.response.AppResponse;
@@ -127,9 +120,8 @@ public class ResponseManager {
         }
     }
 
-    public void notifyViewPagerDataChanged(AbstractResponse mResponse, final Activity activity, List<View> list,
-            TextView tv1, TextView tv2, TextView tv3, TextView tv4, MyPagerAdapter myPagerAdapte,
-            NetworkImageView networkImageView, ImageView imageView) {
+    public void notifyViewPagerDataChanged(AbstractResponse mResponse, FragmentActivity fragmentActivity,
+            List<View> list, TestFragPagerAdapter myPagerAdapter) {
         if (mResponse instanceof TextResponse) {
         } else if (mResponse instanceof UrlResponse) {
         } else if (mResponse instanceof NovelResponse) {
@@ -150,21 +142,21 @@ public class ResponseManager {
                 }
 
                 for (int i = 0; i < mFlightResponse.list.size(); i++) {
-                    LayoutInflater inflater = activity.getLayoutInflater();
+                    LayoutInflater inflater = fragmentActivity.getLayoutInflater();
                     View card_view = inflater.inflate(R.layout.card_result, null);
 
-                    tv1 = (TextView) card_view.findViewById(R.id.textView1);
-                    tv2 = (TextView) card_view.findViewById(R.id.textView2);
-                    tv3 = (TextView) card_view.findViewById(R.id.textView3);
-                    tv4 = (TextView) card_view.findViewById(R.id.textView4);
-                    tv1.setText(mFlightResponse.list.get(i).flight);
-                    tv2.setText(mFlightResponse.list.get(i).route);
-                    tv3.setText(mFlightResponse.list.get(i).starttime);
-                    tv4.setText(mFlightResponse.list.get(i).endtime);
+                    // tv1 = (TextView) card_view.findViewById(R.id.textView1);
+                    // tv2 = (TextView) card_view.findViewById(R.id.textView2);
+                    // tv3 = (TextView) card_view.findViewById(R.id.textView3);
+                    // tv4 = (TextView) card_view.findViewById(R.id.textView4);
+                    // tv1.setText(mFlightResponse.list.get(i).flight);
+                    // tv2.setText(mFlightResponse.list.get(i).route);
+                    // tv3.setText(mFlightResponse.list.get(i).starttime);
+                    // tv4.setText(mFlightResponse.list.get(i).endtime);
                     list.add(card_view);
                 }
             }
-            myPagerAdapte.notifyDataSetChanged();
+            myPagerAdapter.notifyDataSetChanged();
 
         } else if (mResponse instanceof GroupResponse) {
 
@@ -178,35 +170,40 @@ public class ResponseManager {
                 }
 
                 for (int i = 0; i < mMovieResponse.list.size(); i++) {
-                    LayoutInflater inflater = activity.getLayoutInflater();
+                    LayoutInflater inflater = fragmentActivity.getLayoutInflater();
                     View card_view = inflater.inflate(R.layout.card_result, null);
-
-                    tv1 = (TextView) card_view.findViewById(R.id.textView1);
-                    tv2 = (TextView) card_view.findViewById(R.id.textView2);
-                    networkImageView = (NetworkImageView) card_view.findViewById(R.id.netWorkTestView);
-                    imageView = (ImageView) card_view.findViewById(R.id.detailImage);
-                    tv1.setText(mMovieResponse.list.get(i).name);
-                    tv2.setText(mMovieResponse.list.get(i).info);
-                    String tmp = mMovieResponse.list.get(i).detailurl;
-
-                    networkImageView.setDefaultImageResId(R.drawable.ic_launcher);
-                    imageView.setOnClickListener(new OnClickListener() {
-
-                        @Override
-                        public void onClick(View arg0) {
-                            Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse(mMovieResponse.list.get(0).detailurl));
-                            it.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
-                            it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            activity.getApplicationContext().startActivity(it);
-                        }
-                    });
-                    networkImageView.setErrorImageResId(R.drawable.ic_launcher);
-                    networkImageView.setImageUrl(mMovieResponse.list.get(i).icon, IAskIAnswerApp.getInstance()
-                            .getImageLoader());
+                    //
+                    // tv1 = (TextView) card_view.findViewById(R.id.textView1);
+                    // tv2 = (TextView) card_view.findViewById(R.id.textView2);
+                    // networkImageView = (NetworkImageView)
+                    // card_view.findViewById(R.id.netWorkTestView);
+                    // imageView = (ImageView)
+                    // card_view.findViewById(R.id.detailImage);
+                    // tv1.setText(mMovieResponse.list.get(i).name);
+                    // tv2.setText(mMovieResponse.list.get(i).info);
+                    // String tmp = mMovieResponse.list.get(i).detailurl;
+                    //
+                    // networkImageView.setDefaultImageResId(R.drawable.ic_launcher);
+                    // imageView.setOnClickListener(new OnClickListener() {
+                    //
+                    // @Override
+                    // public void onClick(View arg0) {
+                    // Intent it = new Intent(Intent.ACTION_VIEW,
+                    // Uri.parse(mMovieResponse.list.get(0).detailurl));
+                    // it.setClassName("com.android.browser",
+                    // "com.android.browser.BrowserActivity");
+                    // it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    // activity.getApplicationContext().startActivity(it);
+                    // }
+                    // });
+                    // networkImageView.setErrorImageResId(R.drawable.ic_launcher);
+                    // networkImageView.setImageUrl(mMovieResponse.list.get(i).icon,
+                    // IAskIAnswerApp.getInstance()
+                    // .getImageLoader());
                     list.add(card_view);
                 }
             }
-            myPagerAdapte.notifyDataSetChanged();
+            myPagerAdapter.notifyDataSetChanged();
 
         } else if (mResponse instanceof HotelResponse) {
 

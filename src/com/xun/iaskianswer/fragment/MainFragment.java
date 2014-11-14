@@ -1,8 +1,8 @@
 package com.xun.iaskianswer.fragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.baidu.voicerecognition.android.ui.BaiduASRDigitalDialog;
 import com.baidu.voicerecognition.android.ui.DialogRecognitionListener;
 import com.xun.iaskianswer.R;
+import com.xun.iaskianswer.adapter.TestFragPagerAdapter;
 import com.xun.iaskianswer.config.AnswerType;
 import com.xun.iaskianswer.config.Constants;
 import com.xun.iaskianswer.entity.response.AbstractResponse;
@@ -71,11 +72,16 @@ public class MainFragment extends Fragment {
     private String SEARCH_TYPE = null; // 截取出来的返回类型码
     private BaiduASRDigitalDialog mDialog = null;
 
-    private Context context;
+    private FragmentActivity context;
     private static final String TAG = "MainFragment";
 
-    public MainFragment(FragmentActivity context) {
+    private List<View> mListViews;
+    private TestFragPagerAdapter mMyPagerAdapter;
+
+    public MainFragment(FragmentActivity context, List<View> listViews, TestFragPagerAdapter myPagerAdapter) {
         this.context = context;
+        mListViews = listViews;
+        mMyPagerAdapter = myPagerAdapter;
     }
 
     @Override
@@ -85,6 +91,7 @@ public class MainFragment extends Fragment {
         initUI(rootView);
         initSpeechListener();
         initData();
+        mMyPagerAdapter.notifyDataSetChanged();
         return rootView;
     }
 
@@ -182,18 +189,13 @@ public class MainFragment extends Fragment {
 
             } else if (mResponse instanceof FlightResponse) {
                 FlightResponse mFlightResponse = (FlightResponse) mResponse;
-                // responseManager.notifyViewPagerDataChanged(mFlightResponse,
-                // IAskIAnswerActivity.this, list, textView1,
-                // textView2, textView3, textView4, myPagerAdapter, null, null);
+                responseManager.notifyViewPagerDataChanged(mFlightResponse, context, mListViews, mMyPagerAdapter);
 
             } else if (mResponse instanceof GroupResponse) {
 
             } else if (mResponse instanceof MovieResponse) {
                 MovieResponse mMovieResponse = (MovieResponse) mResponse;
-                // responseManager.notifyViewPagerDataChanged(mMovieResponse,
-                // IAskIAnswerActivity.this, list, textView1,
-                // textView2, null, null, myPagerAdapter, networkImageView,
-                // imageView);
+                responseManager.notifyViewPagerDataChanged(mMovieResponse, context, mListViews, mMyPagerAdapter);
 
             } else if (mResponse instanceof HotelResponse) {
 
@@ -235,6 +237,7 @@ public class MainFragment extends Fragment {
         if (mDialog != null) {
             mDialog.dismiss();
         }
+        mMyPagerAdapter.notifyDataSetChanged();
         super.onDestroy();
     }
 }

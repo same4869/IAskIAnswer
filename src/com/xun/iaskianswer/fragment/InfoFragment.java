@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.chiemy.jellyviewpager.util.Constant;
 import com.xun.iaskianswer.R;
+import com.xun.iaskianswer.adapter.TestFragPagerAdapter;
 
 /**
  * @author xwang
@@ -18,11 +19,17 @@ import com.xun.iaskianswer.R;
  */
 public class InfoFragment extends Fragment {
     boolean visible = true;
+    TestFragPagerAdapter myPagerAdapter;
+
+    public InfoFragment(TestFragPagerAdapter myPagerAdapter) {
+        this.myPagerAdapter = myPagerAdapter;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.frag_layout, container, false);
         initUI(rootView);
+        myPagerAdapter.notifyDataSetChanged();
         return rootView;
     }
 
@@ -48,6 +55,12 @@ public class InfoFragment extends Fragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        myPagerAdapter.notifyDataSetChanged();
+        super.onDestroy();
     }
 
 }

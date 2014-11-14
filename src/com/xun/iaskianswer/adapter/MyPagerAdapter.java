@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chiemy.jellyviewpager.util.Constant;
-import com.xun.iaskianswer.fragment.InfoFragment;
 
 /**
  * @author xwang
@@ -80,7 +79,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int arg0) {
         Bundle bundle = new Bundle();
         bundle.putInt(Constant.KEY, Constant.images[arg0 % getCount()]);
-        Fragment frag = new InfoFragment();
+        Fragment frag = new Fragment();
         frag.setArguments(bundle);
         return frag;
     }
