@@ -7,10 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.chiemy.jellyviewpager.util.Constant;
 import com.xun.iaskianswer.fragment.InfoFragment;
@@ -54,22 +52,7 @@ public class TestFragPagerAdapter extends FragmentPagerAdapter {
         if (LogUtil.is_debug) {
             Log.d(TAG, "mListViews.size() --> " + mListViews.size());
         }
-        return mListViews.size();
+        return 5;
     }
 
-    @Override
-    public void destroyItem(View arg0, int arg1, Object arg2) {
-        ((ViewPager) arg0).removeView(mListViews.get(arg1));
-    }
-
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        ((ViewPager) container).removeView((View) object);
-    }
-
-    @Override
-    public Object instantiateItem(View arg0, int arg1) {
-        ((ViewPager) arg0).addView(mListViews.get(arg1), 0);
-        return mListViews.get(arg1);
-    }
 }
