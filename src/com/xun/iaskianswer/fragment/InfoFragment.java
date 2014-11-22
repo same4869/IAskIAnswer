@@ -18,49 +18,49 @@ import com.xun.iaskianswer.adapter.TestFragPagerAdapter;
  *         2014-11-13
  */
 public class InfoFragment extends Fragment {
-    boolean visible = true;
-    TestFragPagerAdapter myPagerAdapter;
+	boolean visible = true;
+	TestFragPagerAdapter myPagerAdapter;
 
-    public InfoFragment(TestFragPagerAdapter myPagerAdapter) {
-        this.myPagerAdapter = myPagerAdapter;
-    }
+	public InfoFragment(TestFragPagerAdapter myPagerAdapter) {
+		this.myPagerAdapter = myPagerAdapter;
+	}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.frag_layout, container, false);
-        initUI(rootView);
-        myPagerAdapter.notifyDataSetChanged();
-        return rootView;
-    }
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View rootView = inflater.inflate(R.layout.fragment_info, container, false);
+		initUI(rootView);
+		myPagerAdapter.notifyDataSetChanged();
+		return rootView;
+	}
 
-    private void initUI(View root) {
+	private void initUI(View root) {
 
-        final View tv1 = root.findViewById(R.id.textView1);
-        final View tv2 = root.findViewById(R.id.textView2);
-        ImageView iv = (ImageView) root.findViewById(R.id.imageView1);
-        Bundle bundle = getArguments();
-        int res = bundle.getInt(Constant.KEY, R.drawable.a);
-        iv.setImageResource(res);
-        iv.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!visible) {
-                    visible = true;
-                    tv1.setVisibility(View.VISIBLE);
-                    tv2.setVisibility(View.VISIBLE);
-                } else {
-                    visible = false;
-                    tv1.setVisibility(View.INVISIBLE);
-                    tv2.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
-    }
+		final View tv1 = root.findViewById(R.id.textView1);
+		final View tv2 = root.findViewById(R.id.textView2);
+		ImageView iv = (ImageView) root.findViewById(R.id.imageView1);
+		Bundle bundle = getArguments();
+		int res = bundle.getInt(Constant.KEY, R.drawable.a);
+		iv.setImageResource(res);
+		iv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (!visible) {
+					visible = true;
+					tv1.setVisibility(View.VISIBLE);
+					tv2.setVisibility(View.VISIBLE);
+				} else {
+					visible = false;
+					tv1.setVisibility(View.INVISIBLE);
+					tv2.setVisibility(View.INVISIBLE);
+				}
+			}
+		});
+	}
 
-    @Override
-    public void onDestroy() {
-        myPagerAdapter.notifyDataSetChanged();
-        super.onDestroy();
-    }
+	@Override
+	public void onDestroy() {
+		myPagerAdapter.notifyDataSetChanged();
+		super.onDestroy();
+	}
 
 }
