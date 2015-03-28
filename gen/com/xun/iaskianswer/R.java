@@ -37,19 +37,21 @@ public final class R {
         public static final int ic_launcher=0x7f020006;
     }
     public static final class id {
-        public static final int add=0x7f0c0008;
-        public static final int btn=0x7f0c000a;
+        public static final int add=0x7f0c000a;
+        public static final int background_iv=0x7f0c0007;
+        public static final int btn=0x7f0c000c;
         public static final int detailImage=0x7f0c0006;
-        public static final int imageView1=0x7f0c0007;
+        public static final int detail_tv=0x7f0c0009;
         public static final int netWorkTestView=0x7f0c0005;
         public static final int textView1=0x7f0c0001;
         public static final int textView2=0x7f0c0002;
         public static final int textView3=0x7f0c0003;
         public static final int textView4=0x7f0c0004;
-        public static final int tv=0x7f0c0009;
-        public static final int tv_tips=0x7f0c000b;
-        public static final int viewPager=0x7f0c000c;
-        public static final int viewPager_dot=0x7f0c000d;
+        public static final int title_tv=0x7f0c0008;
+        public static final int tv=0x7f0c000b;
+        public static final int tv_tips=0x7f0c000d;
+        public static final int viewPager=0x7f0c000e;
+        public static final int viewPager_dot=0x7f0c000f;
         public static final int widget_btn=0x7f0c0000;
     }
     public static final class layout {

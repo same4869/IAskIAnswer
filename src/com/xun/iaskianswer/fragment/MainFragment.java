@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,7 +20,7 @@ import android.widget.TextView;
 import com.baidu.voicerecognition.android.ui.BaiduASRDigitalDialog;
 import com.baidu.voicerecognition.android.ui.DialogRecognitionListener;
 import com.xun.iaskianswer.R;
-import com.xun.iaskianswer.adapter.TestFragPagerAdapter;
+import com.xun.iaskianswer.adapter.FragPagerAdapter;
 import com.xun.iaskianswer.config.Constants;
 import com.xun.iaskianswer.manager.BaiduLocationManager;
 import com.xun.iaskianswer.manager.VoiceActionManager;
@@ -28,47 +29,41 @@ import com.xun.iaskianswer.util.AnimUtil;
 import com.xun.iaskianswer.util.HttpUtil;
 
 /**
+ * 语音页面
+ * 
  * @author xwang
  * 
  *         2014-11-13
  */
 public class MainFragment extends Fragment {
-    boolean visible = true;
-    private TextView tv;
-    private Button btn;
-    private TextView tv_tips;
-    private TextView add;
+    private static final String TAG = "MainFragment";
+
+    private TextView mResultTv;
+    private Button mSpeechBtn;
+    private TextView mTipsTv;
+    private TextView mAddressTv;
 
     private DialogRecognitionListener mRecognitionListener;
-    private VoiceRequestManager voiceRequestManager;
-    private BaiduLocationManager baiduLocationManager;
-    private RandomQueryThread randomQueryThread;
+    private VoiceRequestManager mVoiceRequestManager;
+    private BaiduLocationManager mBaiduLocationManager;
+    private RandomQueryThread mRandomQueryThread;
+    private VoiceActionManager mVoiceActionManager;
 
-    private Handler handler2 = new Handler();
-    // private RandomQueryThread randomQueryThread;
-
-    private VoiceActionManager voiceActionManager;
-
+    private Handler tipsHandler = new Handler();
     private String turingResult = null; // 图灵机器人返回回来的JSON
     private BaiduASRDigitalDialog mDialog = null;
 
     private FragmentActivity context;
-    private static final String TAG = "MainFragment";
-
-    private List<View> mListViews;
-    private TestFragPagerAdapter mMyPagerAdapter;
-
+    private FragPagerAdapter mMyPagerAdapter;
     private OnResultReciviedListener callback;
 
-    public MainFragment(FragmentActivity context, List<View> listViews, TestFragPagerAdapter myPagerAdapter) {
+    public MainFragment(FragmentActivity context, List<View> listViews, FragPagerAdapter myPagerAdapter) {
         this.context = context;
-        mListViews = listViews;
         mMyPagerAdapter = myPagerAdapter;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.fragment_main, null);
         initUI(rootView);
         initSpeechListener();
@@ -88,24 +83,22 @@ public class MainFragment extends Fragment {
     }
 
     private void initData() {
-        voiceRequestManager = VoiceRequestManager.getInstance();
-        baiduLocationManager = BaiduLocationManager.getInstance();
-        voiceActionManager = VoiceActionManager.getInstance();
-        baiduLocationManager.startLocationUpdate(add, context.getApplicationContext());
-        if (randomQueryThread == null) {
-            randomQueryThread = new RandomQueryThread();
-            randomQueryThread.start();
+        mVoiceRequestManager = VoiceRequestManager.getInstance();
+        mBaiduLocationManager = BaiduLocationManager.getInstance();
+        mVoiceActionManager = VoiceActionManager.getInstance();
+        mBaiduLocationManager.startLocationUpdate(mAddressTv, context.getApplicationContext());
+        if (mRandomQueryThread == null) {
+            mRandomQueryThread = new RandomQueryThread();
+            mRandomQueryThread.start();
         }
     }
 
     private void initUI(View root) {
-
-        tv = (TextView) root.findViewById(R.id.tv);
-        btn = (Button) root.findViewById(R.id.btn);
-        tv_tips = (TextView) root.findViewById(R.id.tv_tips);
-        AnimUtil.createQueryAnimation(tv_tips, Constants.toastTips);
-        add = (TextView) root.findViewById(R.id.add);
-
+        mResultTv = (TextView) root.findViewById(R.id.tv);
+        mSpeechBtn = (Button) root.findViewById(R.id.btn);
+        mTipsTv = (TextView) root.findViewById(R.id.tv_tips);
+        AnimUtil.createQueryAnimation(mTipsTv, Constants.toastTips);
+        mAddressTv = (TextView) root.findViewById(R.id.add);
     }
 
     private void initSpeechListener() {
@@ -118,12 +111,13 @@ public class MainFragment extends Fragment {
                     new Thread() {
                         @Override
                         public void run() {
-                            Boolean isVoiceAction = voiceActionManager.isVoiceAction(context.getApplicationContext(),
+                            Boolean isVoiceAction = mVoiceActionManager.isVoiceAction(context.getApplicationContext(),
                                     rs.get(0));
                             if (isVoiceAction == true) {
 
                             } else {
                                 turingResult = HttpUtil.httpGetUtil(rs.get(0));
+                                Log.d(TAG, "turingResult  --> " + turingResult);
                                 hanlder.sendEmptyMessage(0);
                             }
                             super.run();
@@ -133,13 +127,13 @@ public class MainFragment extends Fragment {
 
             }
         };
-        btn.setOnClickListener(new OnClickListener() {
+        mSpeechBtn.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                tv.setText(null);
-                voiceRequestManager.initVoiceParams(context, mDialog, mRecognitionListener);
-                voiceRequestManager.showVoiceDialog(mDialog);
+                mResultTv.setText(null);
+                mVoiceRequestManager.initVoiceParams(context, mDialog, mRecognitionListener);
+                mVoiceRequestManager.showVoiceDialog(mDialog);
             }
         });
     }
@@ -149,7 +143,7 @@ public class MainFragment extends Fragment {
 
         @Override
         public void handleMessage(Message msg) {
-            tv.setText(turingResult);
+            mResultTv.setText(turingResult);
             // 回调到activity中去，实现fragment的通信
             callback.onResult(turingResult);
             super.handleMessage(msg);
@@ -161,10 +155,10 @@ public class MainFragment extends Fragment {
         @Override
         public void run() {
             while (true) {
-                handler2.post(new Runnable() {
+                tipsHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        AnimUtil.createQueryAnimation(tv_tips, Constants.toastTips);
+                        AnimUtil.createQueryAnimation(mTipsTv, Constants.toastTips);
                     }
                 });
                 try {

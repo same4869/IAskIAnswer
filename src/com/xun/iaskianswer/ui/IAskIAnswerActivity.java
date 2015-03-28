@@ -6,6 +6,7 @@ import java.util.List;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -14,9 +15,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.baidu.voicerecognition.android.VoiceRecognitionClient.VoiceClientStatusChangeListener;
-import com.chiemy.jellyviewpager.widget.JellyViewPager;
 import com.xun.iaskianswer.R;
-import com.xun.iaskianswer.adapter.TestFragPagerAdapter;
+import com.xun.iaskianswer.adapter.FragPagerAdapter;
 import com.xun.iaskianswer.config.AnswerType;
 import com.xun.iaskianswer.entity.response.AbstractResponse;
 import com.xun.iaskianswer.entity.response.AppResponse;
@@ -43,15 +43,14 @@ import com.xun.iaskianswer.util.PowerUtil;
  *         2014年10月23日
  */
 public class IAskIAnswerActivity extends FragmentActivity implements OnResultReciviedListener {
-    private Boolean is2CallBack = false;// 是否双击退出
     private static final String TAG = "IAskIAnswerActivity";
-
-    private JellyViewPager myViewPager; // 页卡内容
-    private List<View> list; // 存放页卡
-    private LayoutInflater inflater;
-    private TestFragPagerAdapter myPagerAdapter;
-
     private String SEARCH_TYPE = null; // 截取出来的返回类型码
+
+    private ViewPager mViewPager; // 页卡内容
+    private List<View> mList; // 存放页卡
+    private LayoutInflater mInflater;
+    private FragPagerAdapter mPagerAdapter;
+    private Boolean is2CallBack = false;// 是否双击退出
     private ResponseManager responseManager;
 
     @Override
@@ -68,14 +67,14 @@ public class IAskIAnswerActivity extends FragmentActivity implements OnResultRec
     }
 
     private void initView() {
-        inflater = getLayoutInflater();
-        myViewPager = (JellyViewPager) findViewById(R.id.viewPager);
-        list = new ArrayList<View>();
-        View main_view = inflater.inflate(R.layout.fragment_main, null);
-        list.add(main_view);
-        myPagerAdapter = new TestFragPagerAdapter(getSupportFragmentManager(), IAskIAnswerActivity.this, list);
-        myViewPager.setAdapter(myPagerAdapter);
-        myViewPager.setOnPageChangeListener(new MyPagerChangeListener());
+        mInflater = getLayoutInflater();
+        mViewPager = (ViewPager) findViewById(R.id.viewPager);
+        mList = new ArrayList<View>();
+        View main_view = mInflater.inflate(R.layout.fragment_main, null);
+        mList.add(main_view);
+        mPagerAdapter = new FragPagerAdapter(getSupportFragmentManager(), IAskIAnswerActivity.this, mList);
+        mViewPager.setAdapter(mPagerAdapter);
+        mViewPager.setOnPageChangeListener(new MyPagerChangeListener());
     }
 
     // 百度语音设别的回调函数，备用
@@ -156,6 +155,8 @@ public class IAskIAnswerActivity extends FragmentActivity implements OnResultRec
 
     @Override
     public void onResult(String turingResult) {
+        mPagerAdapter.resetInfoView();
+        mPagerAdapter.notifyDataSetChanged();
         if (turingResult.charAt(8) != '4') {
             SEARCH_TYPE = turingResult.substring(8, 14);
         } else {
@@ -179,16 +180,28 @@ public class IAskIAnswerActivity extends FragmentActivity implements OnResultRec
         } else if (mResponse instanceof AppResponse) {
 
         } else if (mResponse instanceof TrainResponse) {
+            TrainResponse mTrainResponse = (TrainResponse) mResponse;
+            for (int i = 0; i < mTrainResponse.content.size(); i++) {
+                View info_view = mInflater.inflate(R.layout.fragment_info, null);
+                mPagerAdapter.addInfoView(info_view);
+            }
+            mPagerAdapter.addData(mResponse, type2);
+            mPagerAdapter.notifyDataSetChanged();
 
         } else if (mResponse instanceof FlightResponse) {
             FlightResponse mFlightResponse = (FlightResponse) mResponse;
             for (int i = 0; i < mFlightResponse.list.size(); i++) {
-                View info_view = inflater.inflate(R.layout.fragment_info, null);
-                list.add(info_view);
+                View info_view = mInflater.inflate(R.layout.fragment_info, null);
+                mPagerAdapter.addInfoView(info_view);
             }
-            myPagerAdapter.notifyDataSetChanged();
+            mPagerAdapter.addData(mResponse, type2);
+            mPagerAdapter.notifyDataSetChanged();
             // responseManager.notifyViewPagerDataChanged(mFlightResponse,
             // context, mListViews, mMyPagerAdapter);
+            Log.d(TAG, "mFlightResponse.list.get(0).detailurl --> " + mFlightResponse.list.get(0).detailurl
+                    + " mFlightResponse.list.get(0).endtime --> " + mFlightResponse.list.get(0).endtime
+                    + " mFlightResponse.list.get(0).flight --> " + mFlightResponse.list.get(0).flight
+                    + " mFlightResponse.list.get(0).icon --> " + mFlightResponse.list.get(0).icon);
 
         } else if (mResponse instanceof GroupResponse) {
 

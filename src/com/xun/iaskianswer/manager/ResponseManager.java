@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.xun.iaskianswer.R;
-import com.xun.iaskianswer.adapter.TestFragPagerAdapter;
+import com.xun.iaskianswer.adapter.FragPagerAdapter;
 import com.xun.iaskianswer.config.AnswerType;
 import com.xun.iaskianswer.entity.response.AbstractResponse;
 import com.xun.iaskianswer.entity.response.AppResponse;
@@ -121,7 +121,7 @@ public class ResponseManager {
     }
 
     public void notifyViewPagerDataChanged(AbstractResponse mResponse, FragmentActivity fragmentActivity,
-            List<View> list, TestFragPagerAdapter myPagerAdapter) {
+            List<View> list, FragPagerAdapter myPagerAdapter) {
         if (mResponse instanceof TextResponse) {
         } else if (mResponse instanceof UrlResponse) {
         } else if (mResponse instanceof NovelResponse) {
