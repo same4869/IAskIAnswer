@@ -5,10 +5,8 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +15,7 @@ import android.widget.Toast;
 import com.baidu.voicerecognition.android.VoiceRecognitionClient.VoiceClientStatusChangeListener;
 import com.xun.iaskianswer.R;
 import com.xun.iaskianswer.adapter.FragPagerAdapter;
+import com.xun.iaskianswer.base.BaseFragmentActivity;
 import com.xun.iaskianswer.config.AnswerType;
 import com.xun.iaskianswer.entity.response.AbstractResponse;
 import com.xun.iaskianswer.entity.response.AppResponse;
@@ -29,12 +28,10 @@ import com.xun.iaskianswer.entity.response.MovieResponse;
 import com.xun.iaskianswer.entity.response.NewsResponse;
 import com.xun.iaskianswer.entity.response.NovelResponse;
 import com.xun.iaskianswer.entity.response.PriceResponse;
-import com.xun.iaskianswer.entity.response.TextResponse;
 import com.xun.iaskianswer.entity.response.TrainResponse;
 import com.xun.iaskianswer.entity.response.UrlResponse;
 import com.xun.iaskianswer.fragment.MainFragment.OnResultReciviedListener;
 import com.xun.iaskianswer.manager.ResponseManager;
-import com.xun.iaskianswer.util.LogUtil;
 import com.xun.iaskianswer.util.PowerUtil;
 
 /**
@@ -42,7 +39,7 @@ import com.xun.iaskianswer.util.PowerUtil;
  * 
  *         2014年10月23日
  */
-public class IAskIAnswerActivity extends FragmentActivity implements OnResultReciviedListener {
+public class IAskIAnswerActivity extends BaseFragmentActivity implements OnResultReciviedListener {
     private static final String TAG = "IAskIAnswerActivity";
     private String SEARCH_TYPE = null; // 截取出来的返回类型码
 
@@ -154,24 +151,9 @@ public class IAskIAnswerActivity extends FragmentActivity implements OnResultRec
     }
 
     @Override
-    public void onResult(String turingResult) {
-        mPagerAdapter.resetInfoView();
-        mPagerAdapter.notifyDataSetChanged();
-        if (turingResult.charAt(8) != '4') {
-            SEARCH_TYPE = turingResult.substring(8, 14);
-        } else {
-            SEARCH_TYPE = turingResult.substring(8, 13);
-        }
-        if (LogUtil.is_debug) {
-            Log.d(TAG, "SEARCH_TYPE --> " + SEARCH_TYPE + " turingResult.charAt(8) --> " + turingResult.charAt(8));
-        }
-        int type = Integer.parseInt(SEARCH_TYPE);
-        AnswerType type2 = AnswerType.fromInt(type);
-        AbstractResponse mResponse = responseManager.productResponse(turingResult, type2);
-        if (mResponse instanceof TextResponse) {
-            TextResponse mTextResponse = (TextResponse) mResponse;
-            // tv_tips.setText(mTextResponse.text);
-        } else if (mResponse instanceof UrlResponse) {
+    public void onResult(AbstractResponse mResponse, AnswerType type2) {
+
+        if (mResponse instanceof UrlResponse) {
             UrlResponse mUrlResponse = (UrlResponse) mResponse;
         } else if (mResponse instanceof NovelResponse) {
 
@@ -180,28 +162,26 @@ public class IAskIAnswerActivity extends FragmentActivity implements OnResultRec
         } else if (mResponse instanceof AppResponse) {
 
         } else if (mResponse instanceof TrainResponse) {
+            mPagerAdapter.resetInfoView();
+            mPagerAdapter.notifyDataSetChanged();
             TrainResponse mTrainResponse = (TrainResponse) mResponse;
-            for (int i = 0; i < mTrainResponse.content.size(); i++) {
-                View info_view = mInflater.inflate(R.layout.fragment_info, null);
+            View info_view = mInflater.inflate(R.layout.fragment_info, null);
+            for (int i = 0; i < mTrainResponse.list.size(); i++) {
                 mPagerAdapter.addInfoView(info_view);
             }
             mPagerAdapter.addData(mResponse, type2);
             mPagerAdapter.notifyDataSetChanged();
 
         } else if (mResponse instanceof FlightResponse) {
+            mPagerAdapter.resetInfoView();
+            mPagerAdapter.notifyDataSetChanged();
             FlightResponse mFlightResponse = (FlightResponse) mResponse;
+            View info_view = mInflater.inflate(R.layout.fragment_info, null);
             for (int i = 0; i < mFlightResponse.list.size(); i++) {
-                View info_view = mInflater.inflate(R.layout.fragment_info, null);
                 mPagerAdapter.addInfoView(info_view);
             }
             mPagerAdapter.addData(mResponse, type2);
             mPagerAdapter.notifyDataSetChanged();
-            // responseManager.notifyViewPagerDataChanged(mFlightResponse,
-            // context, mListViews, mMyPagerAdapter);
-            Log.d(TAG, "mFlightResponse.list.get(0).detailurl --> " + mFlightResponse.list.get(0).detailurl
-                    + " mFlightResponse.list.get(0).endtime --> " + mFlightResponse.list.get(0).endtime
-                    + " mFlightResponse.list.get(0).flight --> " + mFlightResponse.list.get(0).flight
-                    + " mFlightResponse.list.get(0).icon --> " + mFlightResponse.list.get(0).icon);
 
         } else if (mResponse instanceof GroupResponse) {
 
@@ -221,6 +201,5 @@ public class IAskIAnswerActivity extends FragmentActivity implements OnResultRec
         } else {
 
         }
-
     }
 }

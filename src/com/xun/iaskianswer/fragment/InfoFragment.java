@@ -73,11 +73,11 @@ public class InfoFragment extends Fragment {
                     + ((FlightResponse) mResponse).list.get(position).endtime);
             break;
         case TRAIN:
-            titleTv.setText(((TrainResponse) mResponse).content.get(position).trainnum);
-            detailTv.setText(((TrainResponse) mResponse).content.get(position).start + "---"
-                    + ((TrainResponse) mResponse).content.get(position).terminal + "/n"
-                    + ((TrainResponse) mResponse).content.get(position).starttime + "---"
-                    + ((TrainResponse) mResponse).content.get(position).endtime);
+            titleTv.setText(((TrainResponse) mResponse).list.get(position).trainnum);
+            detailTv.setText(((TrainResponse) mResponse).list.get(position).start + "---"
+                    + ((TrainResponse) mResponse).list.get(position).terminal + "/n"
+                    + ((TrainResponse) mResponse).list.get(position).starttime + "---"
+                    + ((TrainResponse) mResponse).list.get(position).endtime);
         default:
             break;
         }

@@ -6,8 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
 
 import com.chiemy.jellyviewpager.util.Constant;
@@ -15,14 +14,13 @@ import com.xun.iaskianswer.config.AnswerType;
 import com.xun.iaskianswer.entity.response.AbstractResponse;
 import com.xun.iaskianswer.fragment.InfoFragment;
 import com.xun.iaskianswer.fragment.MainFragment;
-import com.xun.iaskianswer.util.LogUtil;
 
 /**
  * @author xwang
  * 
  *         2014-11-13
  */
-public class FragPagerAdapter extends FragmentPagerAdapter {
+public class FragPagerAdapter extends FragmentStatePagerAdapter {
     private FragmentActivity mContext;
     public List<View> mListViews;
     private FragPagerAdapter mMyViewPager;
@@ -60,7 +58,7 @@ public class FragPagerAdapter extends FragmentPagerAdapter {
     public void resetInfoView() {
         doNotifyDataSetChangedOnce = true;
         if (mListViews.size() > 1) {
-            for (int i = 1; i < mListViews.size(); i++) {
+            for (int i = mListViews.size() - 1; i > 0; i--) {
                 mListViews.remove(i);
             }
         }
@@ -73,9 +71,6 @@ public class FragPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        if (LogUtil.is_debug) {
-            Log.d(TAG, "mListViews.size() --> " + mListViews.size());
-        }
         if (doNotifyDataSetChangedOnce) {
             doNotifyDataSetChangedOnce = false;
             notifyDataSetChanged();

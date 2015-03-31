@@ -38,11 +38,18 @@
     <application
         android:name="com.xun.iaskianswer.app.IAskIAnswerApp"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/voice1"
         android:label="@string/app_name" >
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="@string/xwang_baidu_key_office" />
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="551a5365fd98c59233000410" >
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="main" />
 
         <activity
             android:name="com.xun.iaskianswer.ui.IAskIAnswerActivity"

@@ -1,8 +1,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:background="@drawable/card_bg" >
+    android:layout_height="match_parent"
+    android:background="@drawable/bkg" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,18 +19,24 @@
             android:id="@+id/tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#ffbb00"
+            android:textSize="23sp"
             android:text="@string/hello_world" />
 
-        <Button
+        <ImageView
             android:id="@+id/btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:src="@drawable/voice_selector"
             android:text="@string/app_name" />
 
         <TextView
             android:id="@+id/tv_tips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#eecc00"
+            android:textSize="20sp"
             android:text="@string/hello_world" />
     </LinearLayout>
 
