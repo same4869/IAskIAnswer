@@ -12,6 +12,15 @@ public final class R {
         public static final int voice_action=0x7f060000;
     }
     public static final class attr {
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int reflectionColor=0x7f010000;
     }
     public static final class color {
         public static final int half_tra=0x7f070000;
@@ -74,6 +83,7 @@ public final class R {
         public static final int bdspeech_recognition_start=0x7f050002;
         public static final int bdspeech_recognition_success=0x7f050003;
         public static final int bdspeech_speech_end=0x7f050004;
+        public static final int trial_license_20150530=0x7f050005;
     }
     public static final class string {
         public static final int action_settings=0x7f090002;
@@ -90,4 +100,34 @@ public final class R {
     public static final class xml {
         public static final int ask_widget=0x7f040000;
     }
+    public static final class styleable {
+        /** Attributes that can be used with a ShimmerView.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #ShimmerView_reflectionColor com.xun.iaskianswer:reflectionColor}</code></td><td></td></tr>
+           </table>
+           @see #ShimmerView_reflectionColor
+         */
+        public static final int[] ShimmerView = {
+            0x7f010000
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.xun.iaskianswer.R.attr#reflectionColor}
+          attribute's value can be found in the {@link #ShimmerView} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.xun.iaskianswer:reflectionColor
+        */
+        public static final int ShimmerView_reflectionColor = 0;
+    };
 }

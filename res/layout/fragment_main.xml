@@ -1,5 +1,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bkg" >
@@ -15,13 +16,22 @@
             android:layout_height="wrap_content"
             android:text="@string/hello_world" />
 
-        <TextView
+       <!-- <TextView
             android:id="@+id/tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/hello_world"
             android:textColor="#ffbb00"
-            android:textSize="23sp"
-            android:text="@string/hello_world" />
+            android:textSize="23sp" /> --> 
+
+        <com.romainpiel.shimmer.ShimmerTextView
+            android:id="@+id/tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hello_world"
+            android:textColor="#444"
+            android:textSize="25sp"
+            app:reflectionColor="#f00" />
 
         <ImageView
             android:id="@+id/btn"
@@ -35,9 +45,9 @@
             android:id="@+id/tv_tips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/hello_world"
             android:textColor="#eecc00"
-            android:textSize="20sp"
-            android:text="@string/hello_world" />
+            android:textSize="20sp" />
     </LinearLayout>
 
 </ScrollView>
