@@ -18,6 +18,7 @@ import com.baidu.speechsynthesizer.publicutility.SpeechError;
 import com.baidu.speechsynthesizer.publicutility.SpeechLogger;
 import com.xun.iaskianswer.R;
 import com.xun.iaskianswer.app.IAskIAnswerApp;
+import com.xun.iaskianswer.config.Constants;
 
 /**
  * @author xunwang
@@ -107,7 +108,7 @@ public class BaiduTTSManager implements SpeechSynthesizerListener {
 
 		speechSynthesizer = SpeechSynthesizer.newInstance(SpeechSynthesizer.SYNTHESIZER_AUTO, context, "holder", this);
 		// 请替换为开放平台上申请的apikey和secretkey
-		speechSynthesizer.setApiKey("0tjQObGjpw3qLLewul7OiFLG", "2uNZ9FzVuGqrK5HfmlQRQS3lXRczC5gG");
+		speechSynthesizer.setApiKey(Constants.API_KEY, Constants.SECRET_KEY);
 		// 设置授权文件路径
 		speechSynthesizer.setParam(SpeechSynthesizer.PARAM_TTS_LICENCE_FILE, LICENCE_FILE_NAME);
 		// TTS所需的资源文件，可以放在任意可读目录，可以任意改名
